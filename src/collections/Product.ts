@@ -7,7 +7,7 @@ const Product: CollectionConfig = {
   },
   labels: {
     singular: 'Sản Phẩm', // Singular label for a single product
-    plural: 'Danh Sách Sản Phẩm', // Plural label for the collection
+    plural: 'Sản Phẩm', // Plural label for the collection
   },
   access: {
     read: () => true,

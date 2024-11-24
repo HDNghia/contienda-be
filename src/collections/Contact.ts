@@ -7,7 +7,7 @@ const Contact: CollectionConfig = {
   },
   labels: {
     singular: 'Liên Hệ', // Singular label for a single contact
-    plural: 'Danh Sách Liên Hệ', // Plural label for the collection
+    plural: 'Liên Hệ', // Plural label for the collection
   },
   access: {
     read: () => true,

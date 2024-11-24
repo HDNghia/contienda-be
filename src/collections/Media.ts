@@ -7,7 +7,7 @@ export const Media: CollectionConfig = {
   },
   labels: {
     singular: 'Tệp Tin', // Singular label for a single media file
-    plural: 'Danh Sách Tệp Tin', // Plural label for the collection
+    plural: 'Tệp Tin', // Plural label for the collection
   },
   access: {
     read: () => true,

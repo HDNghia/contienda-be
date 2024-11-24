@@ -7,7 +7,7 @@ export const Question: CollectionConfig = {
   },
   labels: {
     singular: 'Câu Hỏi', // Singular label for a single question
-    plural: 'Danh Sách Câu Hỏi', // Plural label for the collection
+    plural: 'Câu Hỏi', // Plural label for the collection
   },
   access: {
     read: () => true,
