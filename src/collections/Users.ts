@@ -8,6 +8,10 @@ export const Users: CollectionConfig = {
   access:{
     read: () => true
   },
+  labels: {
+    singular: 'Quản trị viên', // Singular label for a single question
+    plural: 'Quản trị viên', // Plural label for the collection
+  },
   auth: true,
   fields: [
     // Email added by default
