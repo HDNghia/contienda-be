@@ -49,7 +49,7 @@ export const sendEmail = async (to: any, name: any, phone: any, message: any, su
     // Send the email
     try {
         const email = await payload.email.sendEmail({
-            to: 'huynhquocky97@gmail.com',
+            to: 'Duynam.dcn@gmail.com',
             subject: subject,
             html: htmlContent,
         });
