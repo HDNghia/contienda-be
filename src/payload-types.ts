@@ -13,6 +13,7 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
+    posts: Post;
     products: Product;
     questions: Question;
     contacts: Contact;
@@ -20,10 +21,10 @@ export interface Config {
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
-  collectionsJoins: {};
-  collectionsSelect: {
+  collectionsSelect?: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    posts: PostsSelect<false> | PostsSelect<true>;
     products: ProductsSelect<false> | ProductsSelect<true>;
     questions: QuestionsSelect<false> | QuestionsSelect<true>;
     contacts: ContactsSelect<false> | ContactsSelect<true>;
@@ -37,18 +38,20 @@ export interface Config {
   globals: {
     'product-recommend': ProductRecommend;
     'best-product': BestProduct;
+    'post-recommend': PostRecommend;
   };
-  globalsSelect: {
+  globalsSelect?: {
     'product-recommend': ProductRecommendSelect<false> | ProductRecommendSelect<true>;
     'best-product': BestProductSelect<false> | BestProductSelect<true>;
+    'post-recommend': PostRecommendSelect<false> | PostRecommendSelect<true>;
   };
   locale: null;
   user: User & {
     collection: 'users';
   };
-  jobs: {
+  jobs?: {
     tasks: unknown;
-    workflows: unknown;
+    workflows?: unknown;
   };
 }
 export interface UserAuthOperations {
@@ -75,6 +78,7 @@ export interface UserAuthOperations {
  */
 export interface User {
   id: number;
+  full_name?: string | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -104,6 +108,38 @@ export interface Media {
   height?: number | null;
   focalX?: number | null;
   focalY?: number | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "posts".
+ */
+export interface Post {
+  id: number;
+  title: string;
+  slug?: string | null;
+  author?: (number | null) | User;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  image: number | Media;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+  };
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -156,6 +192,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'media';
         value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'posts';
+        value: number | Post;
       } | null)
     | ({
         relationTo: 'products';
@@ -216,6 +256,7 @@ export interface PayloadMigration {
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
+  full_name?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;
@@ -243,6 +284,27 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "posts_select".
+ */
+export interface PostsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  author?: T;
+  content?: T;
+  image?: T;
+  meta?:
+    | T
+    | {
+        overview?: T;
+        title?: T;
+        description?: T;
+        preview?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -342,6 +404,21 @@ export interface BestProduct {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "post-recommend".
+ */
+export interface PostRecommend {
+  id: number;
+  post_1?: (number | null) | Post;
+  except_1?: string | null;
+  post_2?: (number | null) | Post;
+  except_2?: string | null;
+  post_3?: (number | null) | Post;
+  except_3?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "product-recommend_select".
  */
 export interface ProductRecommendSelect<T extends boolean = true> {
@@ -366,6 +443,21 @@ export interface BestProductSelect<T extends boolean = true> {
   image_2?: T;
   product_3?: T;
   image_3?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "post-recommend_select".
+ */
+export interface PostRecommendSelect<T extends boolean = true> {
+  post_1?: T;
+  except_1?: T;
+  post_2?: T;
+  except_2?: T;
+  post_3?: T;
+  except_3?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

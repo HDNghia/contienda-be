@@ -1,4 +1,5 @@
 import { CollectionConfig } from 'payload';
+import { sendEmail } from '@/utilities/emailSender'
 
 const Contact: CollectionConfig = {
   slug: 'contacts', // This is the API endpoint for the collection
@@ -36,6 +37,20 @@ const Contact: CollectionConfig = {
       label: 'Tin Nhắn', // Add label for admin panel
     },
   ],
+  hooks:{
+    afterChange: [
+      async ({ doc, operation }) => {
+        if (operation === 'create') {
+          try {
+            await sendEmail(doc.email, doc.name, doc.phone, doc.message, 'New customer order')
+          } catch (error) {
+            console.error('Error sending welcome email:', error)
+          }
+        }
+        return doc
+      },
+    ],
+  }
 };
 
 export default Contact;
